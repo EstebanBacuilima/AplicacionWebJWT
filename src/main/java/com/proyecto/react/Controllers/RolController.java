@@ -5,6 +5,7 @@ import com.proyecto.react.Services.RolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,9 @@ public class RolController {
     @Autowired
     RolService rolService;
 
+
     @GetMapping("/rol/listar")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity<List<Rol>> obtenerLista() {
         try {
             return new ResponseEntity<>(rolService.findByAll(), HttpStatus.OK);

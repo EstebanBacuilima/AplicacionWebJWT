@@ -1,6 +1,8 @@
 package com.proyecto.react.Models;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -25,6 +27,16 @@ public class Usuario {
 
     private Boolean estadoUsuario;
 
+    public Usuario() {
+    }
+
+    public Usuario(String username, String password, String fotoUsuario, Boolean estadoUsuario, Persona persona) {
+        this.username = username;
+        this.password = password;
+        this.fotoUsuario = fotoUsuario;
+        this.estadoUsuario = estadoUsuario;
+        this.persona = persona;
+    }
 
     // RELACIONES
     @ManyToOne
@@ -33,11 +45,12 @@ public class Usuario {
 
     //RELACION DE MUCHOS A MUCHOS
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "roles_usuario",
             joinColumns = @JoinColumn(name = "id_usuario"),
             inverseJoinColumns = @JoinColumn(name = "id_rol")
     )
     private List<Rol> roles;
+
 }

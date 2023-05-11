@@ -16,4 +16,9 @@ public class RolServiceImpl extends GenericServiceImpl<Rol, Integer> implements 
     public CrudRepository<Rol, Integer> getDao() {
         return rolRespository;
     }
+
+    @Override
+    public Rol findByNombreRol(String nombreRol) {
+        return rolRespository.findByNombreRol(nombreRol);
+    }
 }
