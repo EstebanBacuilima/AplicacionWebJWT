@@ -67,18 +67,29 @@ public class AuthController {
         }
     }
 
+//    @PostMapping("/register")
+//    public ResponseEntity<Object> resgister(@Valid @RequestBody NewUser newUser, BindingResult bindingResult) {
+//        if (bindingResult.hasErrors())
+//            return new ResponseEntity<>(new Message("Revise los campos e intente nuevamente"), HttpStatus.BAD_REQUEST);
+//        Usuario user = new Usuario(newUser.getUsername(), passwordEncoder.encode(newUser.getPassword()) , newUser.getFotoUsuario(), newUser.getEstadoUsuario(), newUser.getPersona());
+//        List<Rol> roles = new ArrayList<>();
+//        for (Rol rol : newUser.getRoles()) {
+//            roles.add(roleService.findByNombreRol(rol.getNombreRol()));
+//        }
+//        user.setRoles(roles);
+//        userService.save(user);
+//        return new ResponseEntity<>(new Message("Registro exitoso! Inicie sesión"), HttpStatus.CREATED);
+//    }
+
     @PostMapping("/register")
-    public ResponseEntity<Object> resgister(@Valid @RequestBody NewUser newUser, BindingResult bindingResult) {
-        if (bindingResult.hasErrors())
-            return new ResponseEntity<>(new Message("Revise los campos e intente nuevamente"), HttpStatus.BAD_REQUEST);
-        Usuario user = new Usuario(newUser.getUsername(), passwordEncoder.encode(newUser.getPassword()) , newUser.getFotoUsuario(), newUser.getEstadoUsuario(), newUser.getPersona());
-        List<Rol> roles = new ArrayList<>();
-        for (Rol rol : newUser.getRoles()) {
-            roles.add(roleService.findByNombreRol(rol.getNombreRol()));
+    public ResponseEntity<Usuario> crear(@RequestBody Usuario c) {
+        try {
+            c.setEstadoUsuario(true);
+            c.setPassword(passwordEncoder.encode(c.getPassword()));
+            return new ResponseEntity<>(userService.save(c), HttpStatus.CREATED);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        user.setRoles(roles);
-        userService.save(user);
-        return new ResponseEntity<>(new Message("Registro exitoso! Inicie sesión"), HttpStatus.CREATED);
     }
     
 }
