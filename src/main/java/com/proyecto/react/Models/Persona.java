@@ -24,7 +24,7 @@ public class Persona {
 
     private String apellidos;
 
-    private String diraccion;
+    private String direccion;
 
     private String celular;
 
